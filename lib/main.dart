@@ -1,5 +1,5 @@
-import 'package:flu_shop_search/app/src/screen/home/home_screen.dart';
-import 'package:flu_shop_search/app/src/screen/home/spalsh_screen.dart';
+import 'package:flu_shop_search/app/src/screen/main/main_screen.dart';
+import 'package:flu_shop_search/app/src/screen/main/spalsh_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
-        '/home': (context) => HomeScreen(),
+        '/main': (context) => MainScreen(),
       },
     );
   }

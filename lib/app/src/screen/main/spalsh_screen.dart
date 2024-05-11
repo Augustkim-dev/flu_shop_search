@@ -12,9 +12,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Future.delayed(Duration(seconds: 5), () {
-    //   Navigator.of(context).popAndPushNamed('/home');
-    // });
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.of(context).popAndPushNamed('/main');
+    });
   }
 
   @override
