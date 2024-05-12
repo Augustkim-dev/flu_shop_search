@@ -1,4 +1,5 @@
 import 'package:flu_shop_search/app/src/screen/home/home_screen.dart';
+import 'package:flu_shop_search/app/src/screen/list/list_screen.dart';
 import 'package:flu_shop_search/app/src/screen/map/map_screen.dart';
 import 'package:flu_shop_search/app/src/screen/myinfo/my_info_screen.dart';
 import 'package:flu_shop_search/app/src/screen/search/search_screen.dart';
@@ -16,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> screenType = [
     HomeScreen(),
-    SearchScreen(),
+    ListScreen(),
     MapScreen(),
     MyInfoScreen(),
   ];
@@ -45,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: 'home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.search_outlined), label: 'search'),
+              icon: Icon(Icons.list_rounded), label: 'list'),
           BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'map'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), label: 'myinfo'),
