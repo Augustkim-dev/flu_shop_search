@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   supabase_flutter: ^2.5.2
+  buttons_tabbar: ^1.3.10
 
 dev_dependencies:
   flutter_test:
@@ -87,5 +88,22 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Plus_Jakarta_Sans
+      fonts:
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Bold.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-BoldItalic.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-ExtraBold.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-ExtraBoldItalic.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-ExtraLight.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-ExtraLightItalic.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Italic.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Light.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-LightItalic.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Medium.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-MediumItalic.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Regular.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-SemiBold.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-SemiBoldItalic.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

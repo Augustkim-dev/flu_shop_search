@@ -1,5 +1,6 @@
 import 'package:flu_shop_search/app/src/screen/home/home_screen.dart';
 import 'package:flu_shop_search/app/src/screen/list/list_screen.dart';
+import 'package:flu_shop_search/app/src/screen/list/nested_list_tab_screen.dart';
 import 'package:flu_shop_search/app/src/screen/map/map_screen.dart';
 import 'package:flu_shop_search/app/src/screen/myinfo/my_info_screen.dart';
 import 'package:flu_shop_search/app/src/screen/search/search_screen.dart';
@@ -17,7 +18,8 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> screenType = [
     HomeScreen(),
-    ListScreen(),
+    // ListScreen(),
+    NestedListTabScreen(),
     MapScreen(),
     MyInfoScreen(),
   ];
@@ -30,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         showSelectedLabels: false,
-        showUnselectedLabels: false,
+        showUnselectedLabels: true,
         type: BottomNavigationBarType
             .fixed, // fiexd 타입이 아니면 item이 4개 부터는 배경이 하얗게 된다
         backgroundColor: Colors.white,
