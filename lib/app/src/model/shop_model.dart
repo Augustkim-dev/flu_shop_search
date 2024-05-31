@@ -12,7 +12,7 @@ class ShopModel {
   String str_address;
   String str_lat;
   String str_long;
-  // Map<String, dynamic> json_brand;
+  Map<String, dynamic> json_brand;
   DateTime? created_at;
 
   ShopModel({
@@ -29,7 +29,7 @@ class ShopModel {
     required this.str_address,
     required this.str_lat,
     required this.str_long,
-    // required this.json_brand,
+    required this.json_brand,
     this.created_at,
   });
 

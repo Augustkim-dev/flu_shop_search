@@ -146,22 +146,32 @@ class _NestedListTabScreenState extends State<NestedListTabScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            // 'Name of Shop $index',
-                            shopModel.str_shop_name,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                fontFamily: 'Plus_Jakarta_Sans',
-                                color: Color(0xff0D141C)),
-                          ),
+                          shopModel.b_online == true
+                              ? Text(
+                                  '${shopModel.id.toString()} : ${shopModel.str_shop_name} - online',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      fontFamily: 'Plus_Jakarta_Sans',
+                                      color: Color(0xff0D141C)),
+                                )
+                              : Text(
+                                  // 'Name of Shop $index',
+                                  '${shopModel.id.toString()} : ${shopModel.str_shop_name}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      fontFamily: 'Plus_Jakarta_Sans',
+                                      color: Color(0xff0D141C)),
+                                ),
                           Text(
                               // 'description of shop',
                               shopModel.str_desc,
                               style: TextStyle(
                                   fontFamily: 'Plus_Jakarta_Sans',
                                   color: Color(0xff4F7396))),
-                          Text('Category',
+                          Text(
+                              'Category ${shopModel.json_brand['brand_name']} / ${shopModel.json_brand['brand_type']}',
                               style: TextStyle(
                                   fontFamily: 'Plus_Jakarta_Sans',
                                   color: Color(0xff4F7396))),
@@ -188,14 +198,19 @@ class _NestedListTabScreenState extends State<NestedListTabScreen> {
     // print('test : $test');
     lstShop = shopList.map((e) {
       return ShopModel(
-          str_shop_name: e['str_shop_name'],
-          str_phone: e['str_phone'],
-          str_shop_url: e['str_shop_url'],
-          str_desc: e['str_desc'],
-          str_image_url: e['str_image_url'],
-          str_address: e['str_address'],
-          str_lat: e['str_lat'],
-          str_long: e['str_long']);
+        id: e['id'],
+        str_shop_name: e['str_shop_name'],
+        str_phone: e['str_phone'],
+        str_shop_url: e['str_shop_url'],
+        str_desc: e['str_desc'],
+        str_image_url: e['str_image_url'],
+        b_online: e['b_online'],
+        str_address: e['str_address'],
+        str_lat: e['str_lat'],
+        str_long: e['str_long'],
+        json_brand: e['json_brand'],
+        created_at: DateTime.parse(e['created_at']),
+      );
     }).toList();
     // lstShop = shopList.map((e) {
     //   return ShopModel(
