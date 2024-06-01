@@ -1,5 +1,6 @@
 import 'package:flu_shop_search/app/src/screen/home/home_screen.dart';
 import 'package:flu_shop_search/app/src/screen/list/list_screen.dart';
+import 'package:flu_shop_search/app/src/screen/list/list_tab_screen.dart';
 import 'package:flu_shop_search/app/src/screen/list/nested_list_tab_screen.dart';
 import 'package:flu_shop_search/app/src/screen/map/map_screen.dart';
 import 'package:flu_shop_search/app/src/screen/myinfo/my_info_screen.dart';
@@ -19,7 +20,8 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> screenType = [
     HomeScreen(),
     // ListScreen(),
-    NestedListTabScreen(),
+    // NestedListTabScreen(),
+    ListTabScreen(),
     MapScreen(),
     MyInfoScreen(),
   ];
