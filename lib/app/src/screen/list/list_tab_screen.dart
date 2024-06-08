@@ -17,6 +17,7 @@ class ListTabScreen extends StatefulWidget {
 class _NestedListTabScreenState extends State<ListTabScreen> {
   final supabase = Supabase.instance.client;
   TextEditingController _searchController = TextEditingController(); // 검색정보
+  String _searchKeyword = ""; // 검색어 상태 변수 추가
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +69,9 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
         ),
         controller: _searchController,
         onFieldSubmitted: (value) {
+          setState(() {
+            _searchKeyword = value; // 검색어 상태 업데이트
+          });
           print('search : $value');
         },
       ),
@@ -85,9 +89,6 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             TabBar(
-              // isScrollable: false, // 추가
-              // indicatorSize: TabBarIndicatorSize.label, // 추가
-              // physics: NeverScrollableScrollPhysics(), // 추가
               tabs: [
                 Tab(child: Text('All')),
                 Tab(child: Text('On-Line')),
@@ -111,8 +112,6 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
             mainListView(FetchOptions.All),
             mainListView(FetchOptions.Online),
             mainListView(FetchOptions.Offline),
-            // Text('online'),
-            // Text('offline'),
           ],
         ),
       ),
@@ -120,19 +119,10 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
   }
 
   Widget mainListView(FetchOptions fetchOptions) {
-    var fetchMethods;
-    if (fetchOptions == FetchOptions.All) {
-      fetchMethods = fetchShopList(fetchOptions: FetchOptions.All);
-    } else if (fetchOptions == FetchOptions.Online) {
-      fetchMethods = fetchShopList(fetchOptions: FetchOptions.Online);
-    } else if (fetchOptions == FetchOptions.Offline) {
-      fetchMethods = fetchShopList(fetchOptions: FetchOptions.Offline);
-    }
-
     return Container(
       child: FutureBuilder(
-        // future: fetchShopList(fetchOptions: FetchOptions.All),
-        future: fetchMethods,
+        future:
+            fetchShopList(fetchOptions: fetchOptions, keyword: _searchKeyword),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
@@ -148,7 +138,7 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
               itemBuilder: (context, index) {
                 ShopModel shopModel = snapshot.data![index];
                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, // 추가
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -187,12 +177,10 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
                       ],
                     ),
                     SingleChildScrollView(
-                      // SingleChildScrollView로 감싸기 시작
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: List.generate(
-                          // min(10, shopModel.json_brand['brand_names'].length),
                           shopModel.json_brand['brand_names'].length,
                           (index) {
                             return Padding(
@@ -235,7 +223,7 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
                           },
                         ),
                       ),
-                    ), // SingleChildScrollView로 감싸기 끝
+                    ),
                     SizedBox(height: 25),
                   ],
                 );
@@ -262,24 +250,21 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
         query = query.eq('b_offline', true);
         break;
       case FetchOptions.Keyword:
+        // 이미 필터링된 상태에서 검색어 적용
         if (keyword != null && keyword.isNotEmpty) {
-          query = query.ilike('str_shop_name', '%$keyword%');
-        } else {
-          throw ArgumentError(
-              'Keyword cannot be null or empty for Keyword search option.');
+          query = query.or('json_brand->>brand_names.ilike.%$keyword%');
         }
         break;
     }
+
+    if (keyword != null && keyword.isNotEmpty) {
+      query = query.or('json_brand->>brand_names.ilike.%$keyword%');
+    }
+
     print('Query : $query');
 
     final response = await query;
 
-    // if (response.error != null) {
-    //   throw response.error!;
-    // }
-
-    // final shopList = await supabase.from('tbl_shop_main').select();
-    // return shopList.map((e) => ShopModel.fromJson(e)).toList();
     print('##### shopList : $response');
     return response.map((e) {
       return ShopModel(
