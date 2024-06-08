@@ -1,4 +1,4 @@
-import 'package:flu_shop_search/app/src/screen/list/shop_search_result_screen.dart';
+import 'package:flu_shop_search/app/src/screen/list/shop_detail_screen.dart';
 import 'package:flu_shop_search/app/src/screen/main/main_screen.dart';
 import 'package:flu_shop_search/app/src/screen/main/spalsh_screen.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/main': (context) => MainScreen(),
-        '/shopsearch': (context) => ShopSearchResultScreen(),
+        '/shopdetail': (context) => ShopDetailScreen(),
       },
     );
   }

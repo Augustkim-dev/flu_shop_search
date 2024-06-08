@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flu_shop_search/app/src/model/shop_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum FetchOptions { All, Online, Offline, Keyword }
@@ -137,95 +138,109 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 ShopModel shopModel = snapshot.data![index];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Container(
-                            child: Image.network(
-                              'https://t1.daumcdn.net/cfile/tistory/2327D84754754B4D17',
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/shopdetail',
+                        arguments: shopModel);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              child: Image.network(
+                                'https://t1.daumcdn.net/cfile/tistory/2327D84754754B4D17',
+                              ),
+                              width: 72,
+                              height: 72,
                             ),
-                            width: 72,
-                            height: 72,
+                          ),
+                          SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/shopdetail',
+                                  arguments: shopModel);
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${shopModel.id.toString()} : ${shopModel.str_shop_name} ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    fontFamily: 'Plus_Jakarta_Sans',
+                                    color: Color(0xff0D141C),
+                                  ),
+                                ),
+                                Text(
+                                  shopModel.str_desc,
+                                  style: TextStyle(
+                                    fontFamily: 'Plus_Jakarta_Sans',
+                                    color: Color(0xff4F7396),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: List.generate(
+                            shopModel.json_brand['brand_names'].length,
+                            (index) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 4.0),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    print(
+                                        '${shopModel.json_brand['brand_names'][index]} 클릭 !');
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      shopModel.json_brand['brand_names']
+                                          [index],
+                                      style: TextStyle(
+                                        fontFamily: 'Plus_Jakarta_Sans',
+                                        color: Color(0xff4F7396),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    minimumSize:
+                                        MaterialStateProperty.all(Size(0, 0)),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.zero),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.white),
+                                    foregroundColor: MaterialStateProperty.all(
+                                        Color(0xff4F7396)),
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        side: BorderSide(
+                                            color: Color(0xff4F7396)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                        SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${shopModel.id.toString()} : ${shopModel.str_shop_name} ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                fontFamily: 'Plus_Jakarta_Sans',
-                                color: Color(0xff0D141C),
-                              ),
-                            ),
-                            Text(
-                              shopModel.str_desc,
-                              style: TextStyle(
-                                fontFamily: 'Plus_Jakarta_Sans',
-                                color: Color(0xff4F7396),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: List.generate(
-                          shopModel.json_brand['brand_names'].length,
-                          (index) {
-                            return Padding(
-                              padding: EdgeInsets.only(right: 4.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  print(
-                                      '${shopModel.json_brand['brand_names'][index]} 클릭 !');
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    shopModel.json_brand['brand_names'][index],
-                                    style: TextStyle(
-                                      fontFamily: 'Plus_Jakarta_Sans',
-                                      color: Color(0xff4F7396),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                                style: ButtonStyle(
-                                  minimumSize:
-                                      MaterialStateProperty.all(Size(0, 0)),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.zero),
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
-                                  foregroundColor: MaterialStateProperty.all(
-                                      Color(0xff4F7396)),
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side:
-                                          BorderSide(color: Color(0xff4F7396)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                       ),
-                    ),
-                    SizedBox(height: 25),
-                  ],
+                      SizedBox(height: 25),
+                    ],
+                  ),
                 );
               },
             ),
