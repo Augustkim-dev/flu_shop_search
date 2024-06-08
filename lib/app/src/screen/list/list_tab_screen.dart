@@ -16,6 +16,7 @@ class ListTabScreen extends StatefulWidget {
 
 class _NestedListTabScreenState extends State<ListTabScreen> {
   final supabase = Supabase.instance.client;
+  TextEditingController _searchController = TextEditingController(); // 검색정보
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +60,15 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
   Widget searchBar() {
     return Container(
       margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-      child: TextField(
+      child: TextFormField(
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.search),
           hintText: 'Search',
           border: OutlineInputBorder(),
         ),
-        onTap: () {
-          print('!!!');
+        controller: _searchController,
+        onFieldSubmitted: (value) {
+          print('search : $value');
         },
       ),
     );
