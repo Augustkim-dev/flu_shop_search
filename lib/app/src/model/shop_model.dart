@@ -9,9 +9,9 @@ class ShopModel {
   bool? b_offline;
   bool? b_domestic;
   bool? b_international;
-  String str_address;
-  String str_lat;
-  String str_long;
+  String? str_address;
+  String? str_lat;
+  String? str_long;
   Map<String, dynamic> json_brand;
   DateTime? created_at;
 
@@ -26,9 +26,9 @@ class ShopModel {
     this.b_offline,
     this.b_domestic,
     this.b_international,
-    required this.str_address,
-    required this.str_lat,
-    required this.str_long,
+    this.str_address,
+    this.str_lat,
+    this.str_long,
     required this.json_brand,
     this.created_at,
   });

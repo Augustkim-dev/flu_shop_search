@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+enum FetchOptions { All, Online, Offline, Keyword }
+
 class ListTabScreen extends StatefulWidget {
   const ListTabScreen({super.key});
 
@@ -63,6 +65,9 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
           hintText: 'Search',
           border: OutlineInputBorder(),
         ),
+        onTap: () {
+          print('!!!');
+        },
       ),
     );
   }
@@ -101,19 +106,31 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
         padding: const EdgeInsets.all(8.0),
         child: TabBarView(
           children: [
-            mainListView(),
-            Text('online'),
-            Text('offline'),
+            mainListView(FetchOptions.All),
+            mainListView(FetchOptions.Online),
+            mainListView(FetchOptions.Offline),
+            // Text('online'),
+            // Text('offline'),
           ],
         ),
       ),
     );
   }
 
-  Widget mainListView() {
+  Widget mainListView(FetchOptions fetchOptions) {
+    var fetchMethods;
+    if (fetchOptions == FetchOptions.All) {
+      fetchMethods = fetchShopList(fetchOptions: FetchOptions.All);
+    } else if (fetchOptions == FetchOptions.Online) {
+      fetchMethods = fetchShopList(fetchOptions: FetchOptions.Online);
+    } else if (fetchOptions == FetchOptions.Offline) {
+      fetchMethods = fetchShopList(fetchOptions: FetchOptions.Offline);
+    }
+
     return Container(
       child: FutureBuilder(
-        future: fetchShopList(),
+        // future: fetchShopList(fetchOptions: FetchOptions.All),
+        future: fetchMethods,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
@@ -228,10 +245,41 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
     );
   }
 
-  Future<List<ShopModel>> fetchShopList() async {
-    final shopList = await supabase.from('tbl_shop_main').select();
+  Future<List<ShopModel>> fetchShopList(
+      {required FetchOptions fetchOptions, String? keyword}) async {
+    var query = supabase.from('tbl_shop_main').select();
+
+    switch (fetchOptions) {
+      case FetchOptions.All:
+        // No filter needed for "All"
+        break;
+      case FetchOptions.Online:
+        query = query.eq('b_online', true);
+        break;
+      case FetchOptions.Offline:
+        query = query.eq('b_offline', true);
+        break;
+      case FetchOptions.Keyword:
+        if (keyword != null && keyword.isNotEmpty) {
+          query = query.ilike('str_shop_name', '%$keyword%');
+        } else {
+          throw ArgumentError(
+              'Keyword cannot be null or empty for Keyword search option.');
+        }
+        break;
+    }
+    print('Query : $query');
+
+    final response = await query;
+
+    // if (response.error != null) {
+    //   throw response.error!;
+    // }
+
+    // final shopList = await supabase.from('tbl_shop_main').select();
     // return shopList.map((e) => ShopModel.fromJson(e)).toList();
-    return shopList.map((e) {
+    print('##### shopList : $response');
+    return response.map((e) {
       return ShopModel(
         id: e['id'],
         str_shop_name: e['str_shop_name'],
@@ -240,6 +288,7 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
         str_desc: e['str_desc'],
         str_image_url: e['str_image_url'],
         b_online: e['b_online'],
+        b_offline: e['b_offline'],
         str_address: e['str_address'],
         str_lat: e['str_lat'],
         str_long: e['str_long'],
