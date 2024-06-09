@@ -49,12 +49,31 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
   }
 
   Widget banner() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(6),
-      child: Container(
-        height: 150,
-        color: Colors.orange,
-        child: Center(child: Text('banner')),
+    // 임시로 사용할 이미지 URL 리스트
+    List<String> bannerImages = [
+      'https://www.repetto.kr//data/SmartEditContent/20190222102432_5355.jpg',
+      'https://mblogthumb-phinf.pstatic.net/MjAxODEyMDdfOTYg/MDAxNTQ0MTkyNjk0MDYy.c1fmE2-oQrK4ANITJjQ1Y1KiVJJ5K_QQgkmHg22HgVgg.7dsEc8nr7mre5OZL5wLVLkgLBNjRTAE29143F88qY5gg.JPEG.r901207/x9788984077461.jpg?type=w800',
+      'https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/166876835_257668542740012_164609649367803780_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=o3TVqPEzY8EQ7kNvgFDCZHV&_nc_ht=scontent-ssn1-1.xx&oh=00_AYBfg9PJB0xufvO-moDOPEDuzXsfgvUFmSB27ujKvCl-rQ&oe=668D0066',
+    ];
+
+    return Container(
+      height: 150, // 배너 높이 설정
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal, // 가로 스크롤 방향 설정
+        itemCount: bannerImages.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 8), // 카드 간의 간격 설정
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6), // 둥근 모서리 설정
+              child: Image.network(
+                bannerImages[index], // 이미지 URL 설정
+                // fit: BoxFit.cover, // 이미지 비율 유지하며 꽉 채우기
+                width: MediaQuery.of(context).size.width * 0.8, // 카드 너비 설정
+              ),
+            ),
+          );
+        },
       ),
     );
   }
