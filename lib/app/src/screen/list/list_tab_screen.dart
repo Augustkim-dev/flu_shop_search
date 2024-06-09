@@ -143,28 +143,26 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
                     Navigator.pushNamed(context, '/shopdetail',
                         arguments: shopModel);
                   },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              child: Image.network(
-                                'https://t1.daumcdn.net/cfile/tistory/2327D84754754B4D17',
+                  child: Container(
+                    color: Colors
+                        .transparent, // column 전체의 touch를 인식하게 해줄 수 있도록 container로 덮어주기
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                child: Image.network(
+                                  'https://t1.daumcdn.net/cfile/tistory/2327D84754754B4D17',
+                                ),
+                                width: 72,
+                                height: 72,
                               ),
-                              width: 72,
-                              height: 72,
                             ),
-                          ),
-                          SizedBox(width: 20),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/shopdetail',
-                                  arguments: shopModel);
-                            },
-                            child: Column(
+                            SizedBox(width: 20),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
@@ -185,61 +183,63 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: List.generate(
-                            shopModel.json_brand['brand_names'].length,
-                            (index) {
-                              return Padding(
-                                padding: EdgeInsets.only(right: 4.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    print(
-                                        '${shopModel.json_brand['brand_names'][index]} 클릭 !');
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      shopModel.json_brand['brand_names']
-                                          [index],
-                                      style: TextStyle(
-                                        fontFamily: 'Plus_Jakarta_Sans',
-                                        color: Color(0xff4F7396),
-                                        fontSize: 12,
+                          ],
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: List.generate(
+                              shopModel.json_brand['brand_names'].length,
+                              (index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 4.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      print(
+                                          '${shopModel.json_brand['brand_names'][index]} 클릭 !');
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        shopModel.json_brand['brand_names']
+                                            [index],
+                                        style: TextStyle(
+                                          fontFamily: 'Plus_Jakarta_Sans',
+                                          color: Color(0xff4F7396),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                    style: ButtonStyle(
+                                      minimumSize:
+                                          MaterialStateProperty.all(Size(0, 0)),
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.zero),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.white),
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Color(0xff4F7396)),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          side: BorderSide(
+                                              color: Color(0xff4F7396)),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  style: ButtonStyle(
-                                    minimumSize:
-                                        MaterialStateProperty.all(Size(0, 0)),
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.zero),
-                                    backgroundColor:
-                                        MaterialStateProperty.all(Colors.white),
-                                    foregroundColor: MaterialStateProperty.all(
-                                        Color(0xff4F7396)),
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                        side: BorderSide(
-                                            color: Color(0xff4F7396)),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 25),
-                    ],
+                        SizedBox(height: 25),
+                      ],
+                    ),
                   ),
                 );
               },
