@@ -21,27 +21,71 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
   String _searchKeyword = ""; // 검색어 상태 변수 추가
 
   @override
+  // Widget build(BuildContext context) {
+  //   return SafeArea(
+  //     child: Scaffold(
+  //       body: NestedScrollView(
+  //         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+  //           return [
+  //             SliverAppBar(
+  //               title: Text('List Screen'),
+  //               pinned: false,
+  //               floating: true,
+  //               forceElevated: true,
+  //             ),
+  //           ];
+  //         },
+  //         body: ListView(
+  //           padding: EdgeInsets.all(12),
+  //           children: [
+  //             banner(),
+  //             searchBar(),
+  //             tabController(),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                title: Text('List Screen'),
-                pinned: false,
-                floating: true,
-                forceElevated: true,
-              ),
-            ];
-          },
-          body: ListView(
-            padding: EdgeInsets.all(12),
-            children: [
-              banner(),
-              searchBar(),
-              tabController(),
-            ],
+        body: DefaultTabController(
+          length: 3,
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  title: Text('List Screen'),
+                  pinned: true,
+                  floating: true,
+                  forceElevated: innerBoxIsScrolled,
+                ),
+                SliverToBoxAdapter(child: banner()),
+                SliverToBoxAdapter(child: searchBar()),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverAppBarDelegate(
+                    TabBar(
+                      tabs: [
+                        Tab(child: Text('All')),
+                        Tab(child: Text('On-Line')),
+                        Tab(child: Text('Off-Line')),
+                      ],
+                    ),
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: [
+                mainListView(FetchOptions.All),
+                mainListView(FetchOptions.Online),
+                mainListView(FetchOptions.Offline),
+              ],
+            ),
           ),
         ),
       ),
@@ -317,5 +361,32 @@ class _NestedListTabScreenState extends State<ListTabScreen> {
         created_at: DateTime.parse(e['created_at']),
       );
     }).toList();
+  }
+}
+
+// SliverAppBarDelegate를 생성하여 TabBar를 SliverPersistentHeader에서 사용할 수 있도록 함
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar _tabBar;
+
+  _SliverAppBarDelegate(this._tabBar);
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.white,
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
   }
 }
